@@ -1,0 +1,129 @@
+<!doctype html>
+<head>
+    <title>Foon Search</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oxygen">
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+
+</head>
+<body>
+
+    <div id="songs">
+
+        <div id="singers">
+        	<h3>Who will be <span class="uln">missing</span> from the show?</h3>
+        	<form id="singerform">
+                <ul></ul>
+            </form>
+        </div>
+
+        <div id="factors">
+            <form id="factorform">
+                <input type="checkbox" value="sensitive" id="sensitive">There will be kids/elderly folk in the audience</input><br><br>
+                <!-- <input type="checkbox" value="xmas" id="xmas">The show is during Christmastime</input> -->
+            </form>
+        </div>
+
+        <div id="results">
+            <div class="result"><h1>Song Title</h1>Key it's in</div>
+        </div>
+
+        <div id="warnings"></div>
+
+    </div>
+
+    <div class="btn" id="addSongLaunch">Add new Song</div>
+    <div class="btn" id="editSongLaunch">Edit a Song</div>
+    <div class="btn" id="addSingerLaunch">Add new Singer</div>
+    <div class="btn" id="editSingerLaunch">Edit a Singer</div><br>
+
+    <div id="forms">
+
+        <div id="add-song" class="none">
+            <h3>Add a new song</h3>
+            <h4>(if none, leave text field blank, or leave dropdown on default value)</h4>
+            <form id="songform">
+                <div><input type="text" id="addSongTitle" class="formtext"></input><label for="addSongTitle">Song Title</label></div>
+                <div><input type="text" id="addArranger" class="formtext"></input><label for="addArranger">Arranger</label></div>
+                <div><input type="text" id="addKey" class="formtext"></input><label for="addKey">Key</label></div>
+                <div><input type="text" id="addFirstChord" class="formtext"></input><label for="addFirstChord">First Chord</label></div><br>
+                <select id="addSoloist" class="formselect"><option value="" selected>Soloist</option></select>
+                <select id="addUnderstudy" class="formselect"><option value="" selected>Understudy</option></select>
+                <input type="checkbox" id="addInappropriate">Contains explicit content</input><br>
+                <select id="addDuetist" class="formselect"><option value="" selected>2nd Soloist</option></select>
+                <select id="addDuetUnderstudy" class="formselect"><option value="" selected>2nd Soloist Understudy</option></select>
+                <input type="checkbox" id="addGroup">Group song</input><br>
+                <select id="addBeatboxer"class="formselect"><option value="" selected>Beatbox</option></select>
+                <select id="addBeatboxUnderstudy" class="formselect"><option value="" selected>Backup Beatbox</option></select>
+                <input type="checkbox" id="addXmas">This is a Christmas song</input><br>
+                <input type="button" id="addSongBtn" class="btn" value="Add song!"></input>
+            </form>
+        </div>
+
+        <div id="edit-song" class="none">
+            <h3>Edit an existing song</h3><select id="chooseSong" class="formselect"></select><br>
+            <h4>(if none, leave text field blank, or leave dropdown on default value)</h4>
+            <form id="editSongForm">
+                <input type="text" id="editSongTitle" class="formtext"  placeholder="Song Title"></input>
+                <input type="text" id="editArranger" class="formtext"  placeholder="Arranger"></input>
+                <input type="text" id="editKey" class="formtext"  placeholder="Key"></input>
+                <input type="text" id="editFirstChord" class="formtext"  placeholder="First Chord"></input><br>
+                <select id="editSoloist" class="formselect"><option value="" selected>Soloist</option></select>
+                <select id="editUnderstudy" class="formselect"><option value="" selected>Understudy</option></select>
+                <input type="checkbox" id="editInappropriate">Contains explicit content</input><br>
+                <select id="editDuetist" class="formselect"><option value="" selected>2nd Soloist</option></select>
+                <select id="editDuetUnderstudy" class="formselect"><option value="" selected>2nd Soloist Understudy</option></select>
+                <input type="checkbox" id="editGroup">Group song</input><br>
+                <select id="editBeatboxer" class="formselect"><option value="" selected>Beatbox</option></select>
+                <select id="editBeatboxUnderstudy" class="formselect"><option value="" selected>Backup Beatbox</option></select>
+                <input type="checkbox" id="editXmas">This is a Christmas song</input><br>
+                <input type="button" id="editSongBtn" class="btn" value="Save Changes"></input>
+                <input type="button" id="deleteSongBtn" class="btn" value="Delete song"></input>
+            </form>
+        </div>
+
+        <div id="add-singer" class="none">
+            <h3>Add a new singer</h3>
+            <form id="addSingerForm">
+                <input type="text" id="addFirstName" class="formtext" placeholder="First Name"></input>
+                <input type="text" id="addLastName" class="formtext" placeholder="Last Name"></input><br>
+                <select id="addVocalPart" class="formselect">
+                    <option value="" disabled selected>Vocal Part</option>
+                    <option value="Tenor I">Tenor I</option>
+                    <option value="Tenor II">Tenor II</option>
+                    <option value="Baritone">Baritone</option>
+                    <option value="Bass">Bass</option>
+                </select><br>
+                <input type="button" id="addSingerBtn"  class="btn" value="Add singer!"></input>
+            </form>
+        </div>
+
+        <div id="edit-singer" class="none">
+            <h3>Edit an existing singer</h3>
+            <select id="chooseSinger" class="formselect"></select><br>
+            <form id="editSingerForm">
+                <input type="text" id="editFirstName" class="formtext" placeholder="First Name"></input>
+                <input type="text" id="editLastName" class="formtext" placeholder="Last Name"></input><br>
+                <select id="editVocalPart" class="formselect">
+                    <option value="" disabled selected>Vocal Part</option>
+                    <option value="Tenor I">Tenor I</option>
+                    <option value="Tenor II">Tenor II</option>
+                    <option value="Baritone">Baritone</option>
+                    <option value="Bass">Bass</option>
+                </select><br>
+                <input type="button" id="editSingerBtn" class="btn" value="Save Changes"></input>
+                <input type="button" id="deleteSingerBtn" class="btn"  value="Delete singer"></input>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="songInfo none">
+
+    </div>
+    
+</body>
+</html>
