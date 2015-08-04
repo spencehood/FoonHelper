@@ -17,17 +17,7 @@ var songFilterer = {
 		// this.notmissing = data.singers;
 		// this.localApiData;
 
-		$.get("https://api.myjson.com/bins/19lrg", this.handleDataLoaded);
-
-		setTimeout(function() {
-			console.log(localApiData);
-
-			self.eventBinder();
-		}, 700);
-
-		setTimeout(function() {
-			self.songFilter();
-		}, 800);
+		$.get("https://api.myjson.com/bins/19lrg", $.proxy(this.handleDataLoaded, this));
 		
 	},
 
@@ -67,6 +57,10 @@ var songFilterer = {
 			songs.push(song);
 		}
 
+		this.eventBinder();
+
+		this.songFilter();
+
 	},
 
 	eventBinder: function() {
@@ -77,36 +71,10 @@ var songFilterer = {
 
 		$('#factorform input:checkbox').on('change', $.proxy(this.songFilter, this));
 
-		$('#addSongLaunch').on('click', function() {
-			$('#add-song').toggleClass('none');
-			$('#edit-song').addClass('none');
-			$('#add-singer').addClass('none');
-			$('#edit-singer').addClass('none');
-		});
-
-		$('#editSongLaunch').on('click', function() {
-			$('#add-song').addClass('none');
-			$('#edit-song').toggleClass('none');
-			$('#add-singer').addClass('none');
-			$('#edit-singer').addClass('none');
-		});
-
-		$('#addSingerLaunch').on('click', function() {
-			$('#add-song').addClass('none');
-			$('#edit-song').addClass('none');
-			$('#add-singer').toggleClass('none');
-			$('#edit-singer').addClass('none');
-		});
-
-		$('#editSingerLaunch').on('click', function() {
-			$('#add-song').addClass('none');
-			$('#edit-song').addClass('none');
-			$('#add-singer').addClass('none');
-			$('#edit-singer').toggleClass('none');
-		});
+		$('.launch').on('click', $.proxy(this.displayForm, this));
 
 		$('#addSongBtn').on('click', function() {
-			var songProps = {}
+			var songProps = {};
 			// add to songProps as we move along these assignments
 			var title = $('#addSongTitle').val();
 			var arranger = $('#addArranger').val();
@@ -114,16 +82,16 @@ var songFilterer = {
 			var firstchord = $('#addFirstChord').val();
 			var soloist, soloistVal = $('#addSoloist').val();
 				if (soloistVal != 'Soloist') { soloist = soloistVal; }
-			var understudy;
-				if ($('#addUnderstudy').val() == 'Understudy') { understudy = null; } else { understudy = $('#addUnderstudy').val(); }
-			var duetist;
-				if ($('#addDuetist').val() == '2nd Soloist') { duetist = null; } else { duetist = $('#addDuetist').val(); }
-			var duetunderstudy;
-				if ($('#addDuetUnderstudy').val() == '2nd Soloist Understudy') { duetunderstudy = null; } else { duetunderstudy = $('#addDuetUnderstudy').val(); }
-			var beatboxer;
-				if ($('#addBeatboxer').val() == 'Beatbox') { beatboxer = null; } else { beatboxer = $('#addBeatboxer').val(); }
-			var beatboxunderstudy;
-				if ($('#addBeatboxUnderstudy').val() == 'Backup Beatbox') { beatboxunderstudy = null; } else { beatboxunderstudy = $('#addBeatboxUnderstudy').val(); }
+			var understudy, understudyVal = $('#addUnderstudy').val();
+				if (understudyVal != 'Understudy') { understudy = soloistVal; }
+			var duetist, duetistVal = $('#addDuetist').val();
+				if (duetistVal != '2nd Soloist') { duetist = duetistVal; }
+			var duetunderstudy, duetunderstudyVal = $('#addDuetUnderstudy').val();
+				if (duetunderstudyVal != '2nd Soloist Understudy') { duetunderstudy = duetunderstudyVal; }
+			var beatboxer, beatboxerVal = $('#addBeatboxer').val();
+				if (beatboxerVal != 'Beatbox') { beatboxer = beatboxerVal; }
+			var beatboxunderstudy, beatboxunderstudyVal = $('#addBeatboxUnderstudy').val();
+				if (beatboxunderstudyVal != 'Backup Beatbox') { beatboxunderstudy = beatboxunderstudyVal; }
 			var isappropriate = true;
 			//$('#addInappropriate').is(':checked') ? var isappropriate = false : var isappropriate = true;
 			if ($('#addInappropriate').is(':checked')) { isappropriate = false; }
@@ -163,9 +131,18 @@ var songFilterer = {
 
 	},
 
+	displayForm: function(e) {
+
+		var formId = e.target.id.substr(0, e.target.id.indexOf('L')); // Getting everything before 'Launch' in the ID so we can show/hide the corresponding form
+		$('.form').addClass('none');
+		$('#' + formId).toggleClass('none');
+
+	},
+
 	labelFloat: function(e) {
 
 		var inputId = e.target.id;
+		console.log(inputId);
 		$('#' + inputId + ' + label').animate({top: '-8px' }, { duration: 400, complete: function() {
 			$('#' + inputId + ' + label').css('color', 'black');
 		}});
@@ -178,7 +155,7 @@ var songFilterer = {
 		if ($('#' + inputId).val() == '') {
 			$('#' + inputId + ' + label').animate({top: '15px' }, { duration: 400 });
 		} else { }
-		$('#' + inputId + ' + label').css('color', 'grey');
+		$('#' + inputId + ' + label').css('color', '#C2C2C2');
 
 	},
 
@@ -383,6 +360,8 @@ var songFilterer = {
 	},
 
 	populateSongForm: function() {
+		$('#editSongForm').css('display', 'inline');
+
 		var song = this.getSongByTitle($('#chooseSong').val());
 		$('#editSongTitle').val(song.title);
 		$('#editArranger').val(song.arranger);

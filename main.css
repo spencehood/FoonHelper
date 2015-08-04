@@ -1,3 +1,12 @@
+/*
+Darkest brown = #260126
+Purple / brown = #59323C
+
+Orange brown = #cc8029
+Dark brown = #4c300f
+Khaki = #ffc480
+*/
+
 body {
     font-family: Oxygen, sans-serif;
     /*background-image: url(imgs/paper.png);*/
@@ -159,7 +168,7 @@ label {
     position: absolute;
     left: 7px;
     top: 15px;
-    color: grey;
+    color: #C2C2C2;
     padding-left: 10px;
     cursor: text;
 }
@@ -171,7 +180,7 @@ form div {
 #forms {
  
 }
-#add-song, #edit-song, #add-singer, #edit-singer {
+#addSong, #editSong, #addSinger, #editSinger {
     /*height: 240px;*/
     width: 770px;
     border: 3px solid #F0DCAF;
@@ -197,11 +206,15 @@ form div {
     font-family: Oxygen, sans-serif;
 }
 option:first-child {
-    color: #D4BE8E;
+    color: #C2C2C2;
 }
-#edit-song h3, #edit-singer h3 {
+#editSong h3, #editSinger h3 {
     margin-left: 190px;
     display: inline-block;
+}
+
+#editSongForm {
+    display: none;
 }
 
 .none {

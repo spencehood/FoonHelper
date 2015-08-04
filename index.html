@@ -35,14 +35,14 @@
 
     </div>
 
-    <div class="btn" id="addSongLaunch">Add new Song</div>
-    <div class="btn" id="editSongLaunch">Edit a Song</div>
-    <div class="btn" id="addSingerLaunch">Add new Singer</div>
-    <div class="btn" id="editSingerLaunch">Edit a Singer</div><br>
+    <div class="btn launch" id="addSongLaunch">Add new Song</div>
+    <div class="btn launch" id="editSongLaunch">Edit a Song</div>
+    <div class="btn launch" id="addSingerLaunch">Add new Singer</div>
+    <div class="btn launch" id="editSingerLaunch">Edit a Singer</div><br>
 
     <div id="forms">
 
-        <div id="add-song" class="none">
+        <div id="addSong" class="none form">
             <h3>Add a new song</h3>
             <h4>(if none, leave text field blank, or leave dropdown on default value)</h4>
             <form id="songform">
@@ -63,14 +63,14 @@
             </form>
         </div>
 
-        <div id="edit-song" class="none">
+        <div id="editSong" class="none form">
             <h3>Edit an existing song</h3><select id="chooseSong" class="formselect"></select><br>
             <h4>(if none, leave text field blank, or leave dropdown on default value)</h4>
             <form id="editSongForm">
-                <input type="text" id="editSongTitle" class="formtext"  placeholder="Song Title"></input>
-                <input type="text" id="editArranger" class="formtext"  placeholder="Arranger"></input>
-                <input type="text" id="editKey" class="formtext"  placeholder="Key"></input>
-                <input type="text" id="editFirstChord" class="formtext"  placeholder="First Chord"></input><br>
+                <div><input type="text" id="editSongTitle" class="formtext"></input><label for="editSongTitle">Song Title</label></div>
+                <div><input type="text" id="editArranger" class="formtext"></input><label for="editArranger">Arranger</label></div>
+                <div><input type="text" id="editKey" class="formtext"></input><label for="editKey">Key</label></div>
+                <div><input type="text" id="editFirstChord" class="formtext"></input><label for="editFirstChord">First Chord</label></div><br>
                 <select id="editSoloist" class="formselect"><option value="" selected>Soloist</option></select>
                 <select id="editUnderstudy" class="formselect"><option value="" selected>Understudy</option></select>
                 <input type="checkbox" id="editInappropriate">Contains explicit content</input><br>
@@ -85,11 +85,11 @@
             </form>
         </div>
 
-        <div id="add-singer" class="none">
+        <div id="addSinger" class="none form">
             <h3>Add a new singer</h3>
             <form id="addSingerForm">
-                <input type="text" id="addFirstName" class="formtext" placeholder="First Name"></input>
-                <input type="text" id="addLastName" class="formtext" placeholder="Last Name"></input><br>
+                <div><input type="text" id="addFirstName" class="formtext"></input><label for="addFirstName">First Name</label></div>
+                <div><input type="text" id="addLastName" class="formtext"></input><label for="addLastName">Last Name</label></div><br>
                 <select id="addVocalPart" class="formselect">
                     <option value="" disabled selected>Vocal Part</option>
                     <option value="Tenor I">Tenor I</option>
@@ -101,7 +101,7 @@
             </form>
         </div>
 
-        <div id="edit-singer" class="none">
+        <div id="editSinger" class="none form">
             <h3>Edit an existing singer</h3>
             <select id="chooseSinger" class="formselect"></select><br>
             <form id="editSingerForm">
