@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-    <title>Foon Search</title>
+    <title>Foon Song Filter</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oxygen">
@@ -10,6 +10,10 @@
 
 </head>
 <body>
+
+    <nav>
+        <a href="#">Song Filter</a><a href="md.html">Music Directing</a>
+    </nav>
 
     <div id="songs">
 
@@ -50,14 +54,14 @@
                 <div><input type="text" id="addArranger" class="formtext"></input><label for="addArranger">Arranger</label></div>
                 <div><input type="text" id="addKey" class="formtext"></input><label for="addKey">Key</label></div>
                 <div><input type="text" id="addFirstChord" class="formtext"></input><label for="addFirstChord">First Chord</label></div><br>
-                <select id="addSoloist" class="formselect"><option value="" selected>Soloist</option></select>
-                <select id="addUnderstudy" class="formselect"><option value="" selected>Understudy</option></select>
+                <div><select id="addSoloist" class="formselect"><option value="" selected></option></select><label for="addSoloist">Soloist</label></div>
+                <div><select id="addUnderstudy" class="formselect"><option value="" selected></option></select><label for="addUnderstudy">Understudy</label></div>
                 <input type="checkbox" id="addInappropriate">Contains explicit content</input><br>
-                <select id="addDuetist" class="formselect"><option value="" selected>2nd Soloist</option></select>
-                <select id="addDuetUnderstudy" class="formselect"><option value="" selected>2nd Soloist Understudy</option></select>
+                <div><select id="addDuetist" class="formselect"><option value="" selected></option></select><label for="addDuetist">2nd Soloist</label></div>
+                <div><select id="addDuetUnderstudy" class="formselect"><option value="" selected></option></select><label for="addDuetUnderstudy">2nd Soloist Understudy</label></div>
                 <input type="checkbox" id="addGroup">Group song</input><br>
-                <select id="addBeatboxer"class="formselect"><option value="" selected>Beatbox</option></select>
-                <select id="addBeatboxUnderstudy" class="formselect"><option value="" selected>Backup Beatbox</option></select>
+                <div><select id="addBeatboxer"class="formselect"><option value="" selected></option></select><label for="addBeatboxer">Beatbox</label></div>
+                <div><select id="addBeatboxUnderstudy" class="formselect"><option value="" selected></option></select><label for="addBeatboxUnderstudy">Backup Beatbox</label></div>
                 <input type="checkbox" id="addXmas">This is a Christmas song</input><br>
                 <input type="button" id="addSongBtn" class="btn" value="Add song!"></input>
             </form>
@@ -71,14 +75,14 @@
                 <div><input type="text" id="editArranger" class="formtext"></input><label for="editArranger">Arranger</label></div>
                 <div><input type="text" id="editKey" class="formtext"></input><label for="editKey">Key</label></div>
                 <div><input type="text" id="editFirstChord" class="formtext"></input><label for="editFirstChord">First Chord</label></div><br>
-                <select id="editSoloist" class="formselect"><option value="" selected>Soloist</option></select>
-                <select id="editUnderstudy" class="formselect"><option value="" selected>Understudy</option></select>
+                <div><select id="editSoloist" class="formselect"><option value="" selected></option></select><label for="editSoloist">Soloist</label></div>
+                <div><select id="editUnderstudy" class="formselect"><option value="" selected></option></select><label for="editUnderstudy">Understudy</label></div>
                 <input type="checkbox" id="editInappropriate">Contains explicit content</input><br>
-                <select id="editDuetist" class="formselect"><option value="" selected>2nd Soloist</option></select>
-                <select id="editDuetUnderstudy" class="formselect"><option value="" selected>2nd Soloist Understudy</option></select>
+                <div><select id="editDuetist" class="formselect"><option value="" selected></option></select><label for="editDuetist">2nd Soloist</label></div>
+                <div><select id="editDuetUnderstudy" class="formselect"><option value="" selected></option></select><label for="editDuetUnderstudy">2nd Soloist Understudy</label></div>
                 <input type="checkbox" id="editGroup">Group song</input><br>
-                <select id="editBeatboxer" class="formselect"><option value="" selected>Beatbox</option></select>
-                <select id="editBeatboxUnderstudy" class="formselect"><option value="" selected>Backup Beatbox</option></select>
+                <div><select id="editBeatboxer" class="formselect"><option value="" selected></option></select><label for="editBeatboxer">Beatbox</label></div>
+                <div><select id="editBeatboxUnderstudy" class="formselect"><option value="" selected></option></select><label for="editBeatboxUnderstudy">Backup Beatbox</label></div>
                 <input type="checkbox" id="editXmas">This is a Christmas song</input><br>
                 <input type="button" id="editSongBtn" class="btn" value="Save Changes"></input>
                 <input type="button" id="deleteSongBtn" class="btn" value="Delete song"></input>
@@ -105,8 +109,8 @@
             <h3>Edit an existing singer</h3>
             <select id="chooseSinger" class="formselect"></select><br>
             <form id="editSingerForm">
-                <input type="text" id="editFirstName" class="formtext" placeholder="First Name"></input>
-                <input type="text" id="editLastName" class="formtext" placeholder="Last Name"></input><br>
+                <div><input type="text" id="editFirstName" class="formtext"></input><label for="editFirstName">First Name</label></div>
+                <div><input type="text" id="editLastName" class="formtext"></input><label for="editLastName">Last Name</label></div><br>
                 <select id="editVocalPart" class="formselect">
                     <option value="" disabled selected>Vocal Part</option>
                     <option value="Tenor I">Tenor I</option>

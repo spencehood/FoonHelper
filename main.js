@@ -4,7 +4,7 @@ $(document).ready( function() {
 
 //var songs = data.songs;
 var songs = [];
-var notmissing = data.singers;
+var notmissing;
 var localApiData;
 
 var songFilterer = {
@@ -32,6 +32,7 @@ var songFilterer = {
 			$('#chooseSong').append('<option>' + song.title + '</option>');
 		}
 		localApiData = apidata;
+		notmissing = localApiData.singers;
 
 		for (var i = 0; i < localApiData.singers.length; i++) { // Populating dropdowns in forms with singers pulled from db
 			var singer = localApiData.singers[i];
@@ -81,17 +82,17 @@ var songFilterer = {
 			var key = $('#addKey').val();
 			var firstchord = $('#addFirstChord').val();
 			var soloist, soloistVal = $('#addSoloist').val();
-				if (soloistVal != 'Soloist') { soloist = soloistVal; }
+				if (soloistVal != '') { soloist = soloistVal; }
 			var understudy, understudyVal = $('#addUnderstudy').val();
-				if (understudyVal != 'Understudy') { understudy = soloistVal; }
+				if (understudyVal != '') { understudy = soloistVal; }
 			var duetist, duetistVal = $('#addDuetist').val();
-				if (duetistVal != '2nd Soloist') { duetist = duetistVal; }
+				if (duetistVal != '') { duetist = duetistVal; }
 			var duetunderstudy, duetunderstudyVal = $('#addDuetUnderstudy').val();
-				if (duetunderstudyVal != '2nd Soloist Understudy') { duetunderstudy = duetunderstudyVal; }
+				if (duetunderstudyVal != '') { duetunderstudy = duetunderstudyVal; }
 			var beatboxer, beatboxerVal = $('#addBeatboxer').val();
-				if (beatboxerVal != 'Beatbox') { beatboxer = beatboxerVal; }
+				if (beatboxerVal != '') { beatboxer = beatboxerVal; }
 			var beatboxunderstudy, beatboxunderstudyVal = $('#addBeatboxUnderstudy').val();
-				if (beatboxunderstudyVal != 'Backup Beatbox') { beatboxunderstudy = beatboxunderstudyVal; }
+				if (beatboxunderstudyVal != '') { beatboxunderstudy = beatboxunderstudyVal; }
 			var isappropriate = true;
 			//$('#addInappropriate').is(':checked') ? var isappropriate = false : var isappropriate = true;
 			if ($('#addInappropriate').is(':checked')) { isappropriate = false; }
@@ -105,7 +106,7 @@ var songFilterer = {
 
 		$('#editSongBtn').on('click', function() {
 			var title = $('#chooseSong').val();
-			$.proxy(this.editSongInApi(title), this);
+			self.editSongInApi(title);
 		});
 
 		$('#deleteSongBtn').on('click', $.proxy(this.removeSongFromApi, this));
@@ -128,6 +129,8 @@ var songFilterer = {
 
 		$('.formtext').focus( $.proxy(this.labelFloat, this) );
 		$('.formtext').focusout( $.proxy(this.labelSink, this) );
+		$('.formtext').change( $.proxy(this.labelFloat, this) );
+		$('.formselect').change( $.proxy(this.labelFloat, this) );
 
 	},
 
@@ -142,9 +145,8 @@ var songFilterer = {
 	labelFloat: function(e) {
 
 		var inputId = e.target.id;
-		console.log(inputId);
 		$('#' + inputId + ' + label').animate({top: '-8px' }, { duration: 400, complete: function() {
-			$('#' + inputId + ' + label').css('color', 'black');
+			$('#' + inputId + ' + label').css('color', '#BDA060');
 		}});
 
 	},
@@ -231,7 +233,8 @@ var songFilterer = {
 			song = possible[i];
 			
 			// if (song.title.length > 10) {
-			// 	var shortTitle = song.title.substring(0, 10) + '...';
+			//  	var shortTitle = song.title.substring(0, 10); 
+			//  	shortTitle = $.trim(shortTitle) + '...';
 			// 	console.log(shortTitle);
 			// }
 
@@ -247,6 +250,7 @@ var songFilterer = {
 			}
 			if (song.bbflag) {
 				$song.addClass('bb');
+				var shortenFlag = true;
 			}
 			html.push($song);
 
@@ -273,6 +277,7 @@ var songFilterer = {
 				'<tr><td>Appropriate for all audiences: </td><td>' + thisSong.isappropriate + '</td></tr></table>'
 			).removeClass('none');
 		});
+
 	},
 
 	vocalPartCheck: function() {
@@ -329,33 +334,30 @@ var songFilterer = {
 
 	addSongToApi: function(title, arranger, key, firstchord, soloist, understudy, duetist, duetunderstudy, beatboxer, beatboxunderstudy, isappropriate, isgroup, isxmas) {
 
-
 		// this.getData().success( function() {
+		// });
 
-			//}0);
+		localApiData.songs.push( // Adding in the new singer object
+			{"title": title, "arranger": arranger, "key": key, "firstchord": firstchord, "soloist": soloist, "understudy": understudy,
+			"duetist": duetist, "duetunderstudy": duetunderstudy, "beatboxer": beatboxer, "beatboxunderstudy": beatboxunderstudy,
+			"isappropriate": isappropriate, "isgroup": isgroup, "isxmas": isxmas}
+		);
 
-		$.get("https://api.myjson.com/bins/19lrg", function(apidata, textStatus, jqXHR) { // Fetching api data from myjson site
-			console.warn('Data retrieved:', apidata);
-			console.log(soloist);
-			apidata.songs.push( // Adding in the new singer object
-				{"title": title, "arranger": arranger, "key": key, "firstchord": firstchord, "soloist": soloist, "understudy": understudy,
-				"duetist": duetist, "duetunderstudy": duetunderstudy, "beatboxer": beatboxer, "beatboxunderstudy": beatboxunderstudy,
-				"isappropriate": isappropriate, "isgroup": isgroup, "isxmas": isxmas}
-			);
-
-			var jsonString = JSON.stringify(apidata);
-			$.ajax({
-			    url: "https://api.myjson.com/bins/19lrg",
-			    type: "PUT",
-			    data: jsonString,
-			    contentType: "application/json; charset=utf-8",
-			    dataType: "json",
-			    success: function(data, textStatus, jqXHR){
-			    	alert('Update complete. Refresh the page to see new data.');
-			    }
-			});
-
+		var jsonString = JSON.stringify(localApiData);
+		$.ajax({
+		    url: "https://api.myjson.com/bins/19lrg",
+		    type: "PUT",
+		    data: jsonString,
+		    contentType: "application/json; charset=utf-8",
+		    dataType: "json",
+		    success: function(data, textStatus, jqXHR){
+		    	alert('Update complete. Refresh the page to see new data.');
+		    }
 		});
+
+		setTimeout(function() {
+			location.reload(); // Refresh page to reflect new changes
+		}, 1000);
 
 	},
 
@@ -363,23 +365,27 @@ var songFilterer = {
 		$('#editSongForm').css('display', 'inline');
 
 		var song = this.getSongByTitle($('#chooseSong').val());
-		$('#editSongTitle').val(song.title);
-		$('#editArranger').val(song.arranger);
-		$('#editKey').val(song.key);
-		$('#editFirstChord').val(song.firstchord);
-		$('#editSoloist').val(song.soloist);
-		$('#editUnderstudy').val(song.understudy);
-		$('#editDuetist').val(song.duetist);
-		$('#editDuetUnderstudy').val(song.duetunderstudy);
-		$('#editBeatboxer').val(song.beatboxer);
-		$('#editBeatboxUnderstudy').val(song.beatboxunderstudy);
-		if (song.isappropriate == false) { $('#editInappropriate').attr('checked', true); } else { $('#editInappropriate').attr('checked', false); }
+		$('#editSongTitle').val(song.title).change(); // Using .change here to trigger labelFloat
+		$('#editArranger').val(song.arranger).change();
+		$('#editKey').val(song.key).change();
+		$('#editFirstChord').val(song.firstchord).change();
+		$('#editSoloist').val(song.soloist).change();
+		$('#editUnderstudy').val(song.understudy).change();
+		$('#editDuetist').val(song.duetist).change();
+		$('#editDuetUnderstudy').val(song.duetunderstudy).change();
+		$('#editBeatboxer').val(song.beatboxer).change();
+		$('#editBeatboxUnderstudy').val(song.beatboxunderstudy).change();
+		if (!song.isappropriate) { $('#editInappropriate').attr('checked', true); } else { $('#editInappropriate').attr('checked', false); }
 		if (song.isgroup) { $('#editGroup').attr('checked', true); } else { $('#editGroup').attr('checked', false); }
 		if (song.isxmas) { $('#editXmas').attr('checked', true); } else { $('#editXmas').attr('checked', false); }
+
+		console.log(song.isgroup);
+		// console.log(document.getElementById('editSongTitle'));
+		// this.labelFloat(document.getElementById('editSongTitle'));
 	},
 
 	editSongInApi: function(title) {
-		console.log(localApiData);
+
 		for (var i = 0; i < localApiData.songs.length; i++) {
 			var song = localApiData.songs[i];
 			if (song.title == title) {
@@ -387,86 +393,59 @@ var songFilterer = {
 				song.arranger = $('#editArranger').val();
 				song.key = $('#editKey').val();
 				song.firstchord = $('#editFirstChord').val();
-				song.soloist = $('#editSoloist').val();
-				song.understudy = $('#editUnderstudy').val();
-				song.duetist = $('#editDuetist').val();
-				song.duetunderstudy = $('#editDuetUnderstudy').val();
-				song.beatboxer = $('#editBeatboxer').val();
-				song.beatboxunderstudy = $('#editBeatboxUnderstudy').val();
-				song.isappropriate = !$('#editInappropriate').val();
-				song.isgroup = $('#editGroup').val();
-				song.isxmas = $('#editXmas').val();
+				if ($('#editSoloist').val() != '') { song.soloist = $('#editSoloist').val(); } else { song.soloist = null; }
+				if ($('#editUnderstudy').val() != '') { song.understudy = $('#editUnderstudy').val(); } else { song.understudy = null; }
+				if ($('#editDuetist').val() != '') { song.duetist = $('#editDuetist').val(); } else { song.duetist = null; }
+				if ($('#editDuetUnderstudy').val() != '') { song.duetunderstudy = $('#editDuetUnderstudy').val(); } else { song.duetunderstudy = null; }
+				if ($('#editBeatboxer').val() != '') { song.beatboxer = $('#editBeatboxer').val(); } else { song.beatboxer = null; }
+				if ($('#editBeatboxUnderstudy').val() != '') { song.beatboxunderstudy = $('#editBeatboxUnderstudy').val(); } else { song.beatboxunderstudy = null; }
+				if ($('#editInappropriate').is('checked')) { song.isappropriate = false; } else { song.isappropriate = true; }
+				if ($('#editGroup').is('checked')) { song.isgroup = true; } else { song.isgroup = false; }
+				if ($('#editXmas').is('checked')) { song.isxmas = true; } else { song.isxmas = false; }
 			}
 		}
 		console.log(localApiData);
 
-		// var jsonString = JSON.stringify(localApiData);
-		// $.ajax({
-		//     url: "https://api.myjson.com/bins/19lrg",
-		//     type: "PUT",
-		//     data: jsonString,
-		//     contentType: "application/json; charset=utf-8",
-		//     dataType: "json",
-		//     success: function(data, textStatus, jqXHR){
-		//     	console.log('Update complete.');
-		//     	alert('Update complete. Refresh the page to see new data.');
-		//     }
-		// });
+		var jsonString = JSON.stringify(localApiData);
+		$.ajax({
+		    url: "https://api.myjson.com/bins/19lrg",
+		    type: "PUT",
+		    data: jsonString,
+		    contentType: "application/json; charset=utf-8",
+		    dataType: "json",
+		    success: function(data, textStatus, jqXHR){
+		    	console.log('Update complete, refreshing page');
+		    }
+		});
+
+		setTimeout(function() {
+			location.reload(); // Refresh page to reflect new changes
+		}, 1000);
 
 	},
 
 	removeSongFromApi: function() {
 
-		var confirm = window.confirm('Are you sure you want to delete this song?\nPress "ok" or "cancel"');
+		var confirm = window.confirm('Are you sure you want to delete this song?\nPress "OK" or "Cancel"');
 		if (confirm) {
 
 			var chosenSong = $('#chooseSong').val();
 			var self = this;
 
-			$.get("https://api.myjson.com/bins/19lrg", function(apidata, textStatus, jqXHR) { // Fetching api data from myjson site
-				var counter = -1;
-				for (var i = 0; i < apidata.songs.length; i++) { // Eventually only call this when the 'edit song' form is loaded
-					
-					var song = apidata.songs[i];
-					counter++;
-					if (song.title == chosenSong) {
-						console.log(counter);
-						apidata.songs.splice(counter, 1);
-						console.log(apidata.songs);
-					}
-
+			var counter = -1;
+			for (var i = 0; i < localApiData.songs.length; i++) { // Eventually only call this when the 'edit song' form is loaded
+				
+				var song = localApiData.songs[i];
+				counter++;
+				if (song.title == chosenSong) {
+					console.log(counter);
+					localApiData.songs.splice(counter, 1);
+					console.log(localApiData.songs);
 				}
 
-				var jsonString = JSON.stringify(apidata);
-				$.ajax({
-				    url: "https://api.myjson.com/bins/19lrg",
-				    type: "PUT",
-				    data: jsonString,
-				    contentType: "application/json; charset=utf-8",
-				    dataType: "json",
-				    success: function(data, textStatus, jqXHR){
-				    	console.log('Update complete.');
-				    	alert('Update complete. Refresh the page to see new data.');
-				    }
-				});
+			}
 
-
-			});
-
-		} else { return; }
-
-	},
-
-	addSingerToApi: function(firstname, lastname, vocalpart) {
-
-		$.get("https://api.myjson.com/bins/19lrg", function(apidata, textStatus, jqXHR) { // Fetching api data from myjson site
-			console.warn('Data retrieved:', apidata);
-
-			apidata.singers.push( // Adding in the new singer object
-				{"firstname": firstname, "lastname": lastname, "vocalpart": vocalpart}
-			);
-
-			var jsonString = JSON.stringify(apidata);
+			var jsonString = JSON.stringify(localApiData);
 			$.ajax({
 			    url: "https://api.myjson.com/bins/19lrg",
 			    type: "PUT",
@@ -474,24 +453,48 @@ var songFilterer = {
 			    contentType: "application/json; charset=utf-8",
 			    dataType: "json",
 			    success: function(data, textStatus, jqXHR){
-			    	console.log('Update complete.');
-			    	// alert('Update complete. Refresh the page to see new data.');
+			    	console.log('Update complete, refreshing page');
 			    }
 			});
 
 			setTimeout(function() {
 				location.reload(); // Refresh page to reflect new changes
-			}, 1500);
+			}, 1000);
 
+		} else { return; }
+
+	},
+
+	addSingerToApi: function(firstname, lastname, vocalpart) {
+
+		localApiData.singers.push( // Adding in the new singer object
+			{"firstname": firstname, "lastname": lastname, "vocalpart": vocalpart}
+		);
+
+		var jsonString = JSON.stringify(localApiData);
+		$.ajax({
+		    url: "https://api.myjson.com/bins/19lrg",
+		    type: "PUT",
+		    data: jsonString,
+		    contentType: "application/json; charset=utf-8",
+		    dataType: "json",
+		    success: function(data, textStatus, jqXHR){
+		    	console.log('Update complete.');
+		    	// alert('Update complete. Refresh the page to see new data.');
+		    }
 		});
+
+		setTimeout(function() {
+			location.reload(); // Refresh page to reflect new changes
+		}, 1000);
 
 	},
 
 	populateSingerForm: function() {
 		var singer = this.getSingerByName($('#chooseSinger').val());
-		$('#editFirstName').val(singer.firstname);
-		$('#editLastName').val(singer.lastname);
-		$('#editVocalPart').val(singer.vocalpart);
+		$('#editFirstName').val(singer.firstname).change();
+		$('#editLastName').val(singer.lastname).change();
+		$('#editVocalPart').val(singer.vocalpart).change();
 	},
 
 	editSingerInApi: function(fullname) {
@@ -514,10 +517,13 @@ var songFilterer = {
 		    contentType: "application/json; charset=utf-8",
 		    dataType: "json",
 		    success: function(data, textStatus, jqXHR){
-		    	console.log('Update complete.');
-		    	alert('Update complete. Refresh the page to see new data.');
+		    	console.log('Update complete, refreshing page');
 		    }
 		});
+
+		setTimeout(function() {
+			location.reload(); // Refresh page to reflect new changes
+		}, 1000);
 
 	},
 
@@ -529,38 +535,35 @@ var songFilterer = {
 			var chosenSinger = $('#chooseSinger').val();
 			var self = this;
 
-			$.get("https://api.myjson.com/bins/19lrg", function(apidata, textStatus, jqXHR) { // Fetching api data from myjson site
-				var counter = -1;
-				for (var i = 0; i < apidata.singers.length; i++) { // Eventually only call this when the 'edit singer' form is loaded
-					
-					var singer = apidata.singers[i];
-					counter++;
-					if (singer.firstname + ' ' + singer.lastname == chosenSinger) {
-						console.log(counter);
-						apidata.singers.splice(counter, 1);
-						console.log(apidata.singers);
-					}
-
+			var counter = -1;
+			for (var i = 0; i < localApiData.singers.length; i++) { // Eventually only call this when the 'edit singer' form is loaded
+				
+				var singer = localApiData.singers[i];
+				counter++;
+				if (singer.firstname + ' ' + singer.lastname == chosenSinger) {
+					console.log(counter);
+					localApiData.singers.splice(counter, 1);
+					console.log(localApiData.singers);
 				}
 
-				var jsonString = JSON.stringify(apidata);
-				$.ajax({
-				    url: "https://api.myjson.com/bins/19lrg",
-				    type: "PUT",
-				    data: jsonString,
-				    contentType: "application/json; charset=utf-8",
-				    dataType: "json",
-				    success: function(data, textStatus, jqXHR){
-				    	console.log('Update complete.');
-				    	// alert('Update complete. Refresh the page to see new data.');
-				    }
-				});
+			}
 
+			var jsonString = JSON.stringify(localApiData);
+			$.ajax({
+			    url: "https://api.myjson.com/bins/19lrg",
+			    type: "PUT",
+			    data: jsonString,
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+			    success: function(data, textStatus, jqXHR){
+			    	console.log('Update complete.');
+			    	// alert('Update complete. Refresh the page to see new data.');
+			    }
 			});
 
 			setTimeout(function() {
 				location.reload(); // Refresh page to reflect new changes
-			}, 1500);
+			}, 1000);
 
 		} else { return; }
 

@@ -11,7 +11,15 @@ body {
     font-family: Oxygen, sans-serif;
     /*background-image: url(imgs/paper.png);*/
 }
-
+a {
+    margin: 20px;
+    text-decoration: none;
+    color: black;
+    transition: 0.1s linear;
+}
+a:hover {
+    color: #F0DCAF;
+}
 #add-singer {
 	height: 180px;
 	width: 400px;
@@ -172,6 +180,10 @@ label {
     padding-left: 10px;
     cursor: text;
 }
+select + label {
+    padding-top: 7px;
+    cursor: auto;
+}
 form div {
     position: relative;
     display: inline-block;
@@ -188,6 +200,7 @@ form div {
     vertical-align: top;
     display: inline-block;
     padding: 10px;
+    background: #FFF3D6;
 }
 
 
@@ -202,6 +215,7 @@ form div {
     width: 169px;
     height: 30px;
     margin: 10px;
+    margin-top: 15px;
     padding-left: 2px;
     font-family: Oxygen, sans-serif;
 }
@@ -260,4 +274,30 @@ td:nth-child(1) {
 }
 td:nth-child(2) {
     padding-left: 10px;
+}
+
+
+/************************************************************************************************/
+
+#pages {
+    width: 200px;
+    border: 2px solid gold;
+    padding: 10px;
+    margin: 20px;
+}
+.pageLink {
+    font-size: 18px;
+    margin: 15px;
+}
+#currentpage{
+    /* put triangle next to current page here */
+}
+#auditionSeason {
+    border: 2px solid gold;
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+}
+#auditionSeason h1{
+    font-size: 22px;
 }
