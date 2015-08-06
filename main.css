@@ -5,11 +5,14 @@ Purple / brown = #59323C
 Orange brown = #cc8029
 Dark brown = #4c300f
 Khaki = #ffc480
+
+Buff = #F0DCAF
 */
 
 body {
     font-family: Oxygen, sans-serif;
     /*background-image: url(imgs/paper.png);*/
+    background: #e7d5a5;
 }
 a {
     margin: 20px;
@@ -41,17 +44,18 @@ h3 {
 
 
 #songs {
-    width: 1330px;
-    /*height: 540px;*/
-    background: #F0DCAF;
+    width: 1290px;
+    background: #59323C;
     margin: 20px;
+    padding: 10px;
+    overflow: hidden;
 }
 #singers {
-	/*height: 450px;*/
 	width: 220px;
-	background: #FFF3D6;
-	margin: 20px;
+	/*background: lightgrey;*/
+    padding: 10px;
 	display: inline-block;
+    color: #e7d5a5;
 }
 .uln {
     text-decoration: underline;
@@ -76,15 +80,30 @@ ul {
 li {
     margin: 0 auto;
     padding: 0;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     /*border: 1px solid black;*/
     width: 80%;
+}
+.checkbox {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    border: 2px solid #e7d5a5;
+    cursor: pointer;
+}
+.checked {
+    /*background: #e7d5a5;*/
+    background: url(imgs/check.png) no-repeat center center;
+    background-size: contain;
 }
 input[type='checkbox'] {
     height: 18px;
     width: 18px;
 }
-#forms  input[type='checkbox'] {
+#singerform input[type='checkbox'] {
+    display: none;
+}
+#forms input[type='checkbox'] {
     margin-left: 10px;
 }
 .t1 {
@@ -94,22 +113,22 @@ input[type='checkbox'] {
 	margin-top: 20px;
 }
 #factors {
-    /*height: 430px;*/
     width: 220px;
-    background: #FFF3D6;
-    margin: 20px;
+    background: lightgrey;
+    margin-left: 8px;
     display: inline-block;
     vertical-align: top;
-    padding: 10px;
+    padding: 15px;
+    padding-bottom: 25px;
     text-align: center;
 }
 #results {
 	height: 420px;
 	width: 710px;
-	/*background: #EBF7FC;*/
     padding: 15px;
 	margin: 20px;
 	display: inline-block;
+    /*background: lightgrey;*/
 	vertical-align: top;
     overflow-y: auto;
     overflow-x: hidden;
@@ -118,7 +137,7 @@ input[type='checkbox'] {
     width: 150px;
     height: 60px;
     padding: 5px;
-    border: 1px solid #E0C077;
+    border: 1px solid darkgrey;
     background: #fff;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -149,27 +168,40 @@ input[type='checkbox'] {
     margin: 20px;
     margin-top: 0;
     height: 40px;
+    display: none;
 }
 
 form .btn {
     margin: 10px;
+    border: none;
+    background: darkgrey;
+    height: 32px;
+    font-size: 16px;
+    transition: 0.1s linear;
+}
+form .btn:hover {
+    color: #fff;
 }
 .btn {
     width: 200px;
     height: 30px;
     line-height: 30px;
     white-space: nowrap;
-    background: #D4BE8E;
+    background: #fff;
     margin-left: 20px;
     display: inline-block;
     cursor: pointer;
     text-align: center;
-    border: none;
+    border: 2px solid darkgrey;
+    border-radius: 20px;
     font-family: Oxygen, sans-serif;
     margin: 20px;
+    transition: 0.1s linear;
 }
-.btn:hover {
+.launch.btn:hover {
     color: white;
+    border: 2px solid #fff;
+    background: darkgrey;
 }
 label {
     font-size: 13px;
@@ -195,12 +227,12 @@ form div {
 #addSong, #editSong, #addSinger, #editSinger {
     /*height: 240px;*/
     width: 770px;
-    border: 3px solid #F0DCAF;
+    border: 3px solid grey;
     margin: 20px;
     vertical-align: top;
     display: inline-block;
     padding: 10px;
-    background: #FFF3D6;
+    background: lightgrey;
 }
 
 
@@ -275,6 +307,34 @@ td:nth-child(1) {
 td:nth-child(2) {
     padding-left: 10px;
 }
+.fancy {
+    border: 0;
+    height: 1px;
+    width: 180px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(71, 191, 255, 1), rgba(0, 0, 0, 0));
+}
+
+
+
+
+/*#testy input[type='checkbox'] {
+    height: 18px;
+    width: 18px;
+    opacity: 0;
+    float: left;
+}
+#testy label {
+    margin: 0;
+    clear: none;
+    padding: 5px 0 4px 24px;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    border: 3px solid #e7d5a5;
+}
+#testy input[type='checkbox']:checked + label {
+    background-image: url(ims/check.png);
+}*/
 
 
 /************************************************************************************************/

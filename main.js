@@ -18,7 +18,7 @@ var songFilterer = {
 		// this.localApiData;
 
 		$.get("https://api.myjson.com/bins/19lrg", $.proxy(this.handleDataLoaded, this));
-		
+
 	},
 
 	handleDataLoaded: function(apidata, textStatus, jqXHR) {
@@ -37,8 +37,9 @@ var songFilterer = {
 		for (var i = 0; i < localApiData.singers.length; i++) { // Populating dropdowns in forms with singers pulled from db
 			var singer = localApiData.singers[i];
 			var lastInitial = singer.lastname.charAt(0) + '.';
-			$('#singerform ul').append('<li><input type="checkbox" value="' + singer.firstname + ' ' + singer.lastname + '">'
-				+ singer.firstname + ' ' + lastInitial + '</input></li>');
+			$('#singerform ul').append('<li><div class="checkbox" id="' + singer.firstname + singer.lastname + '"></div>' +
+				'<input type="checkbox" value="' + singer.firstname + ' ' + singer.lastname + '">' + singer.firstname + ' ' + lastInitial + '</input></li>');
+
 			$('#addSoloist').append('<option>' + singer.firstname + ' ' + singer.lastname + '</option>');
 			$('#addUnderstudy').append('<option>' + singer.firstname + ' ' + singer.lastname + '</option>');
 			$('#addDuetist').append('<option>' + singer.firstname + ' ' + singer.lastname + '</option>');
@@ -69,6 +70,20 @@ var songFilterer = {
 		var self = this;
 
 		$('#singerform input:checkbox').on('change', $.proxy(this.songFilter, this));
+
+		var whichAction = 1;
+		$('li #SpenceHood').on('click', function() {
+			if (whichAction == 1) {
+				$(this).addClass('checked');
+				$('li input[value = "Spence Hood"').prop('checked', true).change();
+				whichAction = 2;
+			} else {
+				$(this).removeClass('checked');
+				$('li input[value = "Spence Hood"').prop('checked', false).change();
+				whichAction = 1;
+			}
+
+		});
 
 		$('#factorform input:checkbox').on('change', $.proxy(this.songFilter, this));
 
@@ -137,8 +152,7 @@ var songFilterer = {
 	displayForm: function(e) {
 
 		var formId = e.target.id.substr(0, e.target.id.indexOf('L')); // Getting everything before 'Launch' in the ID so we can show/hide the corresponding form
-		$('.form').addClass('none');
-		$('#' + formId).toggleClass('none');
+		$('#' + formId).toggleClass('none').siblings().addClass('none');
 
 	},
 
@@ -277,6 +291,23 @@ var songFilterer = {
 				'<tr><td>Appropriate for all audiences: </td><td>' + thisSong.isappropriate + '</td></tr></table>'
 			).removeClass('none');
 		});
+
+		//console.log($('.result').length);
+		for (var i = 0; i < $('.result').length; i++) {
+			var thisResult = $('.result')[i];
+			self.overflowFix(thisResult);
+		}
+
+	},
+
+	overflowFix: function(element) {
+
+		if (element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth) {
+		    console.log('overflows');
+		    $(element).css('font-size', '14px');
+		} else {
+		    // your element doesn't have overflow
+		}
 
 	},
 
