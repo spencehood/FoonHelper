@@ -6,6 +6,7 @@ $(document).ready( function() {
 var songs = [];
 var notmissing;
 var localApiData;
+var whichAction = 1;
 
 var songFilterer = {
 
@@ -71,18 +72,16 @@ var songFilterer = {
 
 		$('#singerform input:checkbox').on('change', $.proxy(this.songFilter, this));
 
-		var whichAction = 1;
-		$('li #SpenceHood').on('click', function() {
-			if (whichAction == 1) {
+		$('li div').on('click', function() {
+			if ($(this).next().prop('checked') == false) {
+				$(this).next().prop('checked', true).change();
+				if ($(this).closest('form').attr('id') == 'singerform') { $(this).parent().css('opacity', '0.4'); }
 				$(this).addClass('checked');
-				$('li input[value = "Spence Hood"').prop('checked', true).change();
-				whichAction = 2;
 			} else {
+				$(this).next().prop('checked', false).change();
+				$(this).parent().css('opacity', '1');
 				$(this).removeClass('checked');
-				$('li input[value = "Spence Hood"').prop('checked', false).change();
-				whichAction = 1;
 			}
-
 		});
 
 		$('#factorform input:checkbox').on('change', $.proxy(this.songFilter, this));
@@ -97,17 +96,17 @@ var songFilterer = {
 			var key = $('#addKey').val();
 			var firstchord = $('#addFirstChord').val();
 			var soloist, soloistVal = $('#addSoloist').val();
-				if (soloistVal != '') { soloist = soloistVal; }
+				if (soloistVal != '') { soloist = soloistVal; } else { soloist = null }
 			var understudy, understudyVal = $('#addUnderstudy').val();
-				if (understudyVal != '') { understudy = soloistVal; }
+				if (understudyVal != '') { understudy = soloistVal; } else { understudy = null }
 			var duetist, duetistVal = $('#addDuetist').val();
-				if (duetistVal != '') { duetist = duetistVal; }
+				if (duetistVal != '') { duetist = duetistVal; } else { duetist = null }
 			var duetunderstudy, duetunderstudyVal = $('#addDuetUnderstudy').val();
-				if (duetunderstudyVal != '') { duetunderstudy = duetunderstudyVal; }
+				if (duetunderstudyVal != '') { duetunderstudy = duetunderstudyVal; } else { duetunderstudy = null }
 			var beatboxer, beatboxerVal = $('#addBeatboxer').val();
-				if (beatboxerVal != '') { beatboxer = beatboxerVal; }
+				if (beatboxerVal != '') { beatboxer = beatboxerVal; } else { beatboxer = null }
 			var beatboxunderstudy, beatboxunderstudyVal = $('#addBeatboxUnderstudy').val();
-				if (beatboxunderstudyVal != '') { beatboxunderstudy = beatboxunderstudyVal; }
+				if (beatboxunderstudyVal != '') { beatboxunderstudy = beatboxunderstudyVal; } else { beatboxunderstudy = null }
 			var isappropriate = true;
 			//$('#addInappropriate').is(':checked') ? var isappropriate = false : var isappropriate = true;
 			if ($('#addInappropriate').is(':checked')) { isappropriate = false; }
@@ -159,8 +158,8 @@ var songFilterer = {
 	labelFloat: function(e) {
 
 		var inputId = e.target.id;
-		$('#' + inputId + ' + label').animate({top: '-8px' }, { duration: 400, complete: function() {
-			$('#' + inputId + ' + label').css('color', '#BDA060');
+		$('#' + inputId + ' + label').animate({top: '-11px' }, { duration: 300, complete: function() {
+			$('#' + inputId + ' + label').css('color', '#E7D5A5');
 		}});
 
 	},
@@ -169,10 +168,14 @@ var songFilterer = {
 		// use event.current target to find id here
 		var inputId = e.target.id;
 		if ($('#' + inputId).val() == '') {
-			$('#' + inputId + ' + label').animate({top: '15px' }, { duration: 400 });
+			$('#' + inputId + ' + label').animate({top: '18px' }, { duration: 300 });
 		} else { }
-		$('#' + inputId + ' + label').css('color', '#C2C2C2');
+		$('#' + inputId + ' + label').css('color', '#59323C');
 
+	},
+
+	xmasShow: function() {
+		alert('xmas');
 	},
 
 	songFilter:function() {
@@ -197,16 +200,22 @@ var songFilterer = {
 			sensitive = true;
 		}
 
+		var xmas = false;
+		if ($('#xmas').is(':checked')) {
+			xmas = true;
+		}
+
 		for (var i = 0; i < songs.length; i++) { // Looping through every song in data.js
 
 			var currentSong = songs[i];
 			currentSong.understudyflag = false;
 			currentSong.bbflag = false;
 
-			// if (sensitive == true && !song.isappropriate) {
-			// 	continue;
-			// }
-
+			if (!xmas) {
+				if (currentSong.isxmas) {
+					continue;
+				}
+			}
 			if (currentSong.beatboxer && missing[currentSong.beatboxer] && missing[currentSong.beatboxunderstudy]) {
 				currentSong.bbflag = true;
 			}
@@ -232,6 +241,7 @@ var songFilterer = {
 				possible.push(currentSong);
 				// console.warn('thinks we have the understudy');
 			}
+
 		}
 
 		this.resultsRender(possible);
@@ -382,7 +392,7 @@ var songFilterer = {
 		    contentType: "application/json; charset=utf-8",
 		    dataType: "json",
 		    success: function(data, textStatus, jqXHR){
-		    	alert('Update complete. Refresh the page to see new data.');
+		    	console.log('Update complete, refreshing page');
 		    }
 		});
 
@@ -393,7 +403,7 @@ var songFilterer = {
 	},
 
 	populateSongForm: function() {
-		$('#editSongForm').css('display', 'inline');
+		$('#editSongForm').removeClass('none');
 
 		var song = this.getSongByTitle($('#chooseSong').val());
 		$('#editSongTitle').val(song.title).change(); // Using .change here to trigger labelFloat
@@ -430,9 +440,9 @@ var songFilterer = {
 				if ($('#editDuetUnderstudy').val() != '') { song.duetunderstudy = $('#editDuetUnderstudy').val(); } else { song.duetunderstudy = null; }
 				if ($('#editBeatboxer').val() != '') { song.beatboxer = $('#editBeatboxer').val(); } else { song.beatboxer = null; }
 				if ($('#editBeatboxUnderstudy').val() != '') { song.beatboxunderstudy = $('#editBeatboxUnderstudy').val(); } else { song.beatboxunderstudy = null; }
-				if ($('#editInappropriate').is('checked')) { song.isappropriate = false; } else { song.isappropriate = true; }
-				if ($('#editGroup').is('checked')) { song.isgroup = true; } else { song.isgroup = false; }
-				if ($('#editXmas').is('checked')) { song.isxmas = true; } else { song.isxmas = false; }
+				if ($('#editInappropriate').is(':checked')) { song.isappropriate = false; } else { song.isappropriate = true; }
+				if ($('#editGroup').is(':checked')) { song.isgroup = true; } else { song.isgroup = false; }
+				if ($('#editXmas').is(':checked')) { song.isxmas = true; } else { song.isxmas = false; }
 			}
 		}
 		console.log(localApiData);
@@ -522,6 +532,8 @@ var songFilterer = {
 	},
 
 	populateSingerForm: function() {
+		$('#editSingerForm').removeClass('none');
+
 		var singer = this.getSingerByName($('#chooseSinger').val());
 		$('#editFirstName').val(singer.firstname).change();
 		$('#editLastName').val(singer.lastname).change();

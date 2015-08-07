@@ -3,7 +3,7 @@
     <title>Foon Song Filter</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oxygen">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Noto+Sans">
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="data.js"></script>
     <script src="main.js"></script>
@@ -18,7 +18,7 @@
     <div id="songs">
 
         <div id="singers">
-        	<h3>Who will be <span class="uln">missing</span> from the show?</h3>
+        	<h3>Who will be <strong>missing</strong> from the show?</h3>
         	<form id="singerform">
                 <ul></ul>
             </form>
@@ -26,8 +26,11 @@
 
         <div id="factors">
             <form id="factorform">
-                <input type="checkbox" value="sensitive" id="sensitive">There will be kids/elderly folk in the audience</input><hr class="fancy">
-                <input type="checkbox" value="xmas" id="xmas">The show is during Christmastime</input>
+                <ul>
+                    <li><div class="checkbox" id=""></div><input type="checkbox" value="sensitive" id="sensitive">There will be kids/elderly folk in the audience</input></li>
+                    <br><hr><br>
+                    <li><div class="checkbox" id=""></div><input type="checkbox" value="xmas" id="xmas">The show is during Christmastime</input></li>
+                </ul>
             </form>
         </div>
 
@@ -63,14 +66,14 @@
                 <div><select id="addBeatboxer"class="formselect"><option value="" selected></option></select><label for="addBeatboxer">Beatbox</label></div>
                 <div><select id="addBeatboxUnderstudy" class="formselect"><option value="" selected></option></select><label for="addBeatboxUnderstudy">Backup Beatbox</label></div>
                 <input type="checkbox" id="addXmas">This is a Christmas song</input><br>
-                <input type="button" id="addSongBtn" class="btn" value="Add song!"></input>
+                <input type="button" id="addSongBtn" class="btn" value="Add song"></input>
             </form>
         </div>
 
         <div id="editSong" class="none form">
             <h3>Edit an existing song</h3><select id="chooseSong" class="formselect"></select><br>
             <h4>(if none, leave text field blank, or leave dropdown on default value)</h4>
-            <form id="editSongForm">
+            <form id="editSongForm" class="none">
                 <div><input type="text" id="editSongTitle" class="formtext"></input><label for="editSongTitle">Song Title</label></div>
                 <div><input type="text" id="editArranger" class="formtext"></input><label for="editArranger">Arranger</label></div>
                 <div><input type="text" id="editKey" class="formtext"></input><label for="editKey">Key</label></div>
@@ -93,31 +96,30 @@
             <h3>Add a new singer</h3>
             <form id="addSingerForm">
                 <div><input type="text" id="addFirstName" class="formtext"></input><label for="addFirstName">First Name</label></div>
-                <div><input type="text" id="addLastName" class="formtext"></input><label for="addLastName">Last Name</label></div><br>
-                <select id="addVocalPart" class="formselect">
-                    <option value="" disabled selected>Vocal Part</option>
+                <div><input type="text" id="addLastName" class="formtext"></input><label for="addLastName">Last Name</label></div>
+                <div><select id="addVocalPart" class="formselect">
+                    <option value="" selected></option>
                     <option value="Tenor I">Tenor I</option>
                     <option value="Tenor II">Tenor II</option>
                     <option value="Baritone">Baritone</option>
                     <option value="Bass">Bass</option>
-                </select><br>
-                <input type="button" id="addSingerBtn"  class="btn" value="Add singer!"></input>
+                </select><label for="addVocalPart">Vocal Part</label></div><br>
+                <input type="button" id="addSingerBtn"  class="btn" value="Add singer"></input>
             </form>
         </div>
 
         <div id="editSinger" class="none form">
-            <h3>Edit an existing singer</h3>
-            <select id="chooseSinger" class="formselect"></select><br>
-            <form id="editSingerForm">
+            <h3>Edit an existing singer</h3><select id="chooseSinger" class="formselect"></select>
+            <form id="editSingerForm" class="none">
                 <div><input type="text" id="editFirstName" class="formtext"></input><label for="editFirstName">First Name</label></div>
                 <div><input type="text" id="editLastName" class="formtext"></input><label for="editLastName">Last Name</label></div><br>
-                <select id="editVocalPart" class="formselect">
-                    <option value="" disabled selected>Vocal Part</option>
+                <div><select id="editVocalPart" class="formselect">
+                    <option value="" selected></option>
                     <option value="Tenor I">Tenor I</option>
                     <option value="Tenor II">Tenor II</option>
                     <option value="Baritone">Baritone</option>
                     <option value="Bass">Bass</option>
-                </select><br>
+                </select><label for="editVocalPart">Vocal Part</label></div><br>
                 <input type="button" id="editSingerBtn" class="btn" value="Save Changes"></input>
                 <input type="button" id="deleteSingerBtn" class="btn"  value="Delete singer"></input>
             </form>
@@ -128,11 +130,10 @@
     <div class="songInfo none">
     </div>
 
-<!--     <div id="testy">
-    <input type="checkbox" id="one"></input><label for="one"></label>
-    <input type="checkbox" id="two"></input><label for="two"></label>
-    <input type="checkbox" id="three"></input><label for="three"></label>
-    </div> -->
+    <div id="help"></div>
+    <div id="helpText">
+        Welcome to the CU Buffoons Setlist App.
+    </div>
     
 </body>
 </html>
