@@ -439,11 +439,20 @@ var songFilterer = {
 		$('#editBeatboxer').val(song.beatboxer).change();
 		$('#editBeatboxUnderstudy').val(song.beatboxunderstudy).change();
 		if (!song.isappropriate) {
-			$('#editInappropriate').attr('checked', true); $('#editInappropriate').prev().addClass('checked'); } else { $('#editInappropriate').attr('checked', false); $('#editInappropriate').prev().removeClass('checked'); }
+			$('#editInappropriate').prop('checked', true); $('#editInappropriate').prev().addClass('checked');
+		} else {
+			$('#editInappropriate').prop('checked', false); $('#editInappropriate').prev().removeClass('checked');
+		}
 		if (song.isgroup) {
-			$('#editGroup').attr('checked', true); $('#editGroup').prev().addClass('checked'); } else { $('#editGroup').attr('checked', false); $('#editGroup').prev().removeClass('checked'); }
+			$('#editGroup').prop('checked', true); $('#editGroup').prev().addClass('checked');
+		} else {
+			$('#editGroup').prop('checked', false); $('#editGroup').prev().removeClass('checked');
+		}
 		if (song.isxmas) {
-			$('#editXmas').attr('checked', true); $('#editXmas').prev().addClass('checked'); } else { $('#editXmas').attr('checked', false); $('#editXmas').prev().removeClass('checked'); }
+			$('#editXmas').prop('checked', true); $('#editXmas').prev().addClass('checked');
+		} else {
+			$('#editXmas').prop('checked', false); $('#editXmas').prev().removeClass('checked');
+		}
 		console.log(song.isgroup);
 
 	},
